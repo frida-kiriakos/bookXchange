@@ -1,0 +1,12 @@
+<% if object.errors.any? %>
+  <div id="error_explanation">
+    <div class="alert alert-error">
+     <%= I18n.t('errors.template.body', :count => object.errors.size) %>
+    </div>
+    <ul>
+    <% object.errors.messages.each do |attr,msg|%>
+      <li>* <%=t attr%> <%= msg[0] %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

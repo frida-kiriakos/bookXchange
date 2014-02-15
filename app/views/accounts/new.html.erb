@@ -1,0 +1,30 @@
+<h3 class="center">Create an account and start exchanging books</h3>
+<div class="row">
+  <div class="span6 offset3">
+	<%= form_for(@account) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+	<%= f.label :name %>
+	<%= f.text_field :name %>	
+
+	<%= f.label :email %>
+	<%= f.text_field :email %>	
+
+	<%= f.label :password %>
+	<%= f.password_field :password %>
+
+	<%= f.label :password_confirmation, "Confirmation" %>
+	<%= f.password_field :password_confirmation %>
+
+	<%= f.label :education, "Education level" %>
+	<%= f.text_field :education %>
+
+	<%= f.label :address %>
+    <%= f.text_field :address %>
+    <br>
+
+	<%= f.submit "Create My Account", class: "btn btn-large btn-primary" %>
+
+	<% end %>
+  </div>
+</div>
