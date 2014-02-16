@@ -3,10 +3,10 @@ class Account < ActiveRecord::Base
 
   # a unique index will be created for the email to validate uniqueness on the database level
   # TODO: regex must be modified for csuf emails
-  # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  # validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}, uniqueness: { case_sensitive: false }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[csu\.]*fullerton\.edu\z/i
+  validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}, uniqueness: { case_sensitive: false }
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  # validates :email, presence: true, uniqueness: { case_sensitive: false }
 
   has_secure_password
 
