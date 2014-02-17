@@ -26,7 +26,7 @@ class AccountsController < ApplicationController
   def create
     @account = Account.new(account_params)
     if @account.save
-      # sign_in @account
+      sign_in @account
       flash[:success] = "Thank you for registering on bookXchange"
       redirect_to @account
     else

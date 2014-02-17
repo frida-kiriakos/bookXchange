@@ -3,5 +3,7 @@
 
   <h4 class="center"> We will handle your books for you </h4>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-large" %>
+  <% if !current_user %>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-large" %>
+  <% end%>
 </div>
