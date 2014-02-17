@@ -1,6 +1,31 @@
 <h1>Editing account</h1>
 
-<%= render 'form' %>
+<div class="row">
+  <div class="span6 offset3">
+	<%= form_for(@account) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
 
-<%= link_to 'Show', @account %> |
-<%= link_to 'Back', accounts_path %>
+	<%= f.label :name %>
+	<%= f.text_field :name %>	
+
+	<%= f.label :email %>
+	<%= f.text_field :email %>	
+
+	<%= f.label :password %>
+	<%= f.password_field :password %>
+
+	<%= f.label :password_confirmation, "Confirmation" %>
+	<%= f.password_field :password_confirmation %>
+
+	<%= f.label :education, "Education level" %>
+	<%= f.text_field :education %>
+
+	<%= f.label :address %>
+    <%= f.text_field :address %>
+    <br>
+
+	<%= f.submit "Edit Account", class: "btn btn-large btn-primary" %>
+
+	<% end %>
+  </div>
+</div>

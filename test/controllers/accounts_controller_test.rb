@@ -1,8 +1,15 @@
 require 'test_helper'
 
 class AccountsControllerTest < ActionController::TestCase
+
+  ###### what to test:
+  # was the web request successful?
+  # was the user redirected to the right page?
+  # was the user successfully authenticated?
+  # was the correct object stored in the response template?
+  # was the appropriate message displayed to the user in the view?
   setup do
-    @account = accounts(:one)
+    @account = accounts(:one)    
   end
 
   test "should get index" do
@@ -18,7 +25,12 @@ class AccountsControllerTest < ActionController::TestCase
 
   test "should create account" do
     assert_difference('Account.count') do
-      post :create, account: { address: @account.address, admin: @account.admin, education: @account.education, email: @account.email, name: @account.name, password_digest: @account.password_digest }
+      post :create, account: { 
+        education: "graduate", 
+        email: "frida@csu.fullerton.edu", 
+        name: "frida", 
+        password: "test123", 
+        password_confirmation: "test123" }
     end
 
     assert_redirected_to account_path(assigns(:account))
@@ -35,7 +47,7 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   test "should update account" do
-    patch :update, id: @account, account: { address: @account.address, admin: @account.admin, education: @account.education, email: @account.email, name: @account.name, password_digest: @account.password_digest }
+    patch :update, id: @account, account: { address: @account.address, education: @account.education, email: @account.email, name: @account.name, password: "test123", password_confirmation: "test123" }
     assert_redirected_to account_path(assigns(:account))
   end
 
