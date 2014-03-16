@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140217042334) do
+ActiveRecord::Schema.define(version: 20140316022953) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -26,5 +26,22 @@ ActiveRecord::Schema.define(version: 20140217042334) do
   end
 
   add_index "accounts", ["remember_token"], name: "index_accounts_on_remember_token", using: :btree
+
+  create_table "books", force: true do |t|
+    t.string   "title"
+    t.string   "author"
+    t.integer  "edition"
+    t.string   "ISBN"
+    t.string   "course"
+    t.integer  "book_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "account_id"
+  end
+
+  add_index "books", ["ISBN"], name: "index_books_on_ISBN", using: :btree
+  add_index "books", ["author"], name: "index_books_on_author", using: :btree
+  add_index "books", ["course"], name: "index_books_on_course", using: :btree
+  add_index "books", ["title"], name: "index_books_on_title", using: :btree
 
 end

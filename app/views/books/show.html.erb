@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Book Information</h1>
+
+<p>
+  <strong>Title: </strong>
+  <%= @book.title %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @book.author %>
+</p>
+
+<p>
+  <strong>Added by: </strong>
+  <%= link_to @book.account.name, @book.account %>
+</p>
+
+<p><strong>More information</strong></p>
+
+<p>
+  <strong>ISBN: </strong>
+  <%= @book.ISBN %>
+</p>
+
+<p>
+  <strong>Edition: </strong>
+  <%= @book.edition %>
+</p>
+
+<!-- TODO: we can include here that the user is willing to exchange for other books or needs these books and have a link for his/her book list  -->
+<p><strong>The user <% if @book.book_type %> is looking for the book <%else%> owns the book <%end%></strong></p>
+
+<%= link_to 'Edit', edit_book_path(@book) %> |
+<%= link_to 'Back', books_path %>

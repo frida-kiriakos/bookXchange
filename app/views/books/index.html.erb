@@ -1,0 +1,11 @@
+<h1>Books List</h1>
+
+<div class="span8">
+    <% if @books.any? %>
+      <h3>Books (<%= @books.count %>)</h3>
+      <ol class="books">
+        <%= render @books %>
+      </ol>
+      <%= will_paginate @books %>
+    <% end %>
+</div>

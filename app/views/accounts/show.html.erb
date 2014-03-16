@@ -1,30 +1,52 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @account.name %>
-</p>
+<div class="span8">
+  <p>
+    <strong>Name:</strong>
+    <%= @account.name %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @account.email %>
-</p>
+  <p>
+    <strong>Email:</strong>
+    <%= @account.email %>
+  </p>
 
-<p>
-  <strong>Education:</strong>
-  <%= @account.education %>
-</p>
+  <p>
+    <strong>Education:</strong>
+    <%= @account.education %>
+  </p>
 
-<p>
-  <strong>Admin:</strong>
-  <%= @account.admin %>
-</p>
+  <p>
+    <strong>Admin:</strong>
+    <%= @account.admin %>
+  </p>
 
-<p>
-  <strong>Address:</strong>
-  <%= @account.address %>
-</p>
+  <p>
+    <strong>Address:</strong>
+    <%= @account.address %>
+  </p>
 
 
-<%= link_to 'Edit', edit_account_path(@account) %> |
-<%= link_to 'Back', accounts_path %>
+
+  <% books = @account.books %>
+
+
+
+  <% if books.any? %>
+    <p> <strong> Books (<%= books.count %>) </strong></p>
+    <ol class="books">
+      <%= render books %>
+    </ol>
+  <% end %>
+</div>
+
+<div class="span8">
+  <p> <strong>Actions: </strong></p>
+  <%= link_to 'Edit Account Information', edit_account_path(@account) %> |
+  <%= link_to 'Add a New book', new_book_path %> |
+  <%= link_to 'Back', accounts_path %>
+</div>
+
+
+
+

@@ -1,0 +1,33 @@
+<h3 class="center">Add a Book</h3>
+<div class="row">
+  <div class="span6 offset3">
+	<%= form_for(@book) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+
+	<%= f.label :title %>
+	<%= f.text_field :title %>	
+
+	<%= f.label :author %>
+	<%= f.text_field :author %>	
+
+	<%= f.label :ISBN %>
+	<%= f.text_field :ISBN %>	
+
+	<%= f.label :edition %>
+	<%= f.text_field :edition %>
+
+	<%= f.label :course, 'Course related to the book, if any' %>
+  <%= f.text_field :course %>
+
+  <p>
+	  <%= f.label :book_type, 'Do you own the book or do you need it?' %>
+	  <%= radio_button("book", "book_type", "0")  %> I own the book</br>
+	  <%= radio_button("book", "book_type", "1")  %> I am looking for the book
+  </p>
+    <br>
+
+	<%= f.submit "Add Book", class: "btn btn-large btn-primary" %>
+
+	<% end %>
+  </div>
+</div>

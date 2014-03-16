@@ -5,5 +5,10 @@
 
   <% if !current_user %>
     <%= link_to "Sign up now!", signup_path, class: "btn btn-large" %>
-  <% end%>
+    <br><br>
+    <h5><%= link_to "Or you can start browsing books", books_path %></h5>
+  <% else %>
+    <%= link_to "Browse Books", books_path, class: "btn btn-large" %>
+  <% end %>
+
 </div>

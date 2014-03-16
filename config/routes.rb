@@ -1,8 +1,9 @@
-BookXchange::Application.routes.draw do
+BookXchange::Application.routes.draw do  
   
   root 'home#index'
   get 'about', to: 'home#about'
   resources :accounts
+  resources :books
 
   get '/signup', to: 'accounts#new'
 

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   title: MyString
+#   author: MyString
+#   edition: 1
+#   ISBN: 1
+#   course: MyString
+#   book_type: 1
+
+# two:
+#   title: MyString
+#   author: MyString
+#   edition: 1
+#   ISBN: 1
+#   course: MyString
+#   book_type: 1
