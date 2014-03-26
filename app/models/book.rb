@@ -4,6 +4,6 @@ class Book < ActiveRecord::Base
 	validates :author, presence: true
 
 	searchable do
-    text :title, :author    
+    text :title, :author, :ISBN, :course    
   end
 end

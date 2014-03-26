@@ -50,6 +50,7 @@ class BooksController < ApplicationController
   def search
     @books = Book.search do 
       fulltext params[:book]
+      paginate :page => params[:page]
     end.results
   end
 
