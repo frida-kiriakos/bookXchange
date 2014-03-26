@@ -17,34 +17,33 @@
   </p>
 
   <p>
-    <strong>Admin:</strong>
-    <%= @account.admin %>
-  </p>
-
-  <p>
     <strong>Address:</strong>
     <%= @account.address %>
   </p>
 
 
-
-  <% books = @account.books %>
-
-
-
-  <% if books.any? %>
-    <p> <strong> Books (<%= books.count %>) </strong></p>
+  <% if @owned.any? %>
+    <p> <strong> Owned Books (<%= @owned.count %>) </strong></p>
     <ol class="books">
-      <%= render books %>
+      <%= render @owned %>
+    </ol>
+  <% end %>
+
+  <% if @needed.any? %>
+    <p> <strong> Needed Books (<%= @needed.count %>) </strong></p>
+    <ol class="books">
+      <%= render @needed %>
     </ol>
   <% end %>
 </div>
 
 <div class="span8">
   <p> <strong>Actions: </strong></p>
-  <%= link_to 'Edit Account Information', edit_account_path(@account) %> |
-  <%= link_to 'Add a New book', new_book_path %> |
-  <%= link_to 'Back', accounts_path %>
+  <% if current_user?(@account)%>
+    <%= link_to 'Edit Account Information', edit_account_path(@account) %> |
+    <%= link_to 'Add a New book', new_book_path %> |
+  <%end%>
+  <%= link_to 'Back', root_path %>
 </div>
 
 

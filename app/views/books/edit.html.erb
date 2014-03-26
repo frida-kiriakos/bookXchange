@@ -26,6 +26,21 @@
   </p>
     <br>
 
+  <p id="sell_book_check" >
+	  <%= f.label :sell, 'Do you want to exchange the book or sell it?' %>
+	  <%= radio_button("book", "sell", "0")  %> exchange </br>
+	  <%= radio_button("book", "sell", "1")  %> sell
+  </p>
+    <br>
+   
+  <p id="sell_book_info" >
+	  <%= f.label :amount, 'Expected fee:' %>
+		<%= f.number_field :amount %>
+
+	  <%= f.label :paypal_account, 'Your Paypal account email' %>
+		<%= f.text_field :paypal_account%>
+	</p>
+
 	<%= f.submit "Edit Book", class: "btn btn-large btn-primary" %>
 
 	<% end %>

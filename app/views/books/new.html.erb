@@ -10,7 +10,7 @@
 	<%= f.label :author %>
 	<%= f.text_field :author %>	
 
-	<%= f.label :ISBN %>
+	<%= f.label :ISBN, 'ISBN' %>
 	<%= f.text_field :ISBN %>	
 
 	<%= f.label :edition %>
@@ -26,8 +26,48 @@
   </p>
     <br>
 
+  <p id="sell_book_check" style="display: none;">
+	  <%= f.label :sell, 'Do you want to exchange the book or sell it?' %>
+	  <%= radio_button("book", "sell", "0")  %> exchange </br>
+	  <%= radio_button("book", "sell", "1")  %> sell
+  </p>
+    <br>
+   
+  <p id="sell_book_info" style="display: none;">
+	  <%= f.label :amount, 'Expected fee:' %>
+		<%= f.number_field :amount %>
+
+	  <%= f.label :paypal_account, 'Your Paypal account email' %>
+		<%= f.text_field :paypal_account%>
+	</p>
+
 	<%= f.submit "Add Book", class: "btn btn-large btn-primary" %>
 
 	<% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+	$('#book_book_type_0, #book_book_type_1').change(function() {
+		type = this.getAttribute('value');
+		if (type == 0) {
+			document.getElementById('sell_book_check').style.display = 'block';
+		}
+		else {
+			document.getElementById('sell_book_check').style.display = 'none';
+		}
+	});
+
+	$('#book_sell_0, #book_sell_1').change(function() {
+		sell = this.getAttribute('value');
+		if (sell == 1) {
+			document.getElementById('sell_book_info').style.display = "block";
+		}
+		else {
+		  document.getElementById('sell_book_info').style.display = "none";	
+		}
+	});
+
+});
+</script>

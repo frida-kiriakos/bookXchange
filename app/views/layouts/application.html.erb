@@ -14,7 +14,15 @@
       <div class="navbar-inner">
         <div class="container">
           <%= link_to "BookXchange", root_path, id: "logo" %>
+          
           <nav>
+            <form accept-charset="UTF-8" action="/search" class="nav" role="search" style="margin-left: 100px;" method="POST">
+              <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="Z93CGHIrOGNhv4kW4LQuRMl7nGD38zdSKATMTjiIDSQ="></div>
+              <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search for Books" name="book">
+              </div>             
+            </form>
+
             <ul class="nav pull-right">
               <li><%= link_to "Home",    root_path %></li>
               <li><%= link_to "About us",    about_path %></li>
@@ -27,6 +35,10 @@
                   <ul class="dropdown-menu">
                     <li><%= link_to "Profile", current_user %></li>
                     <li><%= link_to "Settings", edit_account_path(current_user) %></li>
+                    <li class="divider"></li>
+                    <li>
+                      <%= link_to "Add a book", new_book_path %>
+                    </li>
                     <li class="divider"></li>
                     <li>
                       <%= link_to "Sign out", signout_path, method: "delete" %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140316022953) do
+ActiveRecord::Schema.define(version: 20140323012022) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -37,6 +37,9 @@ ActiveRecord::Schema.define(version: 20140316022953) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "account_id"
+    t.integer  "sell"
+    t.integer  "amount"
+    t.string   "paypal_account"
   end
 
   add_index "books", ["ISBN"], name: "index_books_on_ISBN", using: :btree

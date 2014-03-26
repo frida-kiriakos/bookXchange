@@ -47,9 +47,15 @@ class BooksController < ApplicationController
   	end
   end
 
+  def search
+    @books = Book.search do 
+      fulltext params[:book]
+    end.results
+  end
+
 private
 	def book_params
-		params.require(:book).permit(:title, :author, :ISBN, :edition, :course, :book_type)
+		params.require(:book).permit(:title, :author, :ISBN, :edition, :course, :book_type, :sell, :amount, :paypal_account)
 	end
 
 end

@@ -17,3 +17,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore solr files
+solr/*
+lib/tasks/solr.rake
+log/sunspot-solr-development.log.lck

@@ -28,6 +28,11 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+# gem 'sunspot', '~> 2.1.0'
+gem 'sunspot_rails', '~> 2.0.0'
+gem 'sunspot_solr', '~> 2.0.0' # optional pre-packaged Solr distribution for use in development
+gem 'progress_bar' # to show a progress bar while reindexing
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 

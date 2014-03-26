@@ -1,13 +1,21 @@
 <li>
-  <%= link_to book.title, book %> -
-  Added by: <%= link_to book.account.name, book.account %>
+  <%= link_to book.title, book %>
+  <% if params[:controller] == "books" %> 
+    - Added by: <%= link_to book.account.name, book.account %>
+  <%end%>
+
+  <%if book.sell == 1 %>
+    - For Sale
+  <%else%> 
+    - For exchange
+  <%end%>
 
   <% if current_user && current_user.admin? || current_user?(book.account) %>
-    | <%= link_to "delete", book, method: :delete,
+    | <%= link_to "Delete", book, method: :delete,
                                   data: { confirm: "Are you sure?" } %>
   <% end %>
 
   <% if current_user && current_user?(book.account) %>
-    | <%= link_to "edit", edit_book_path(book) %>
+    | <%= link_to "Edit", edit_book_path(book) %>
   <% end %>
 </li>

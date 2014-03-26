@@ -29,8 +29,17 @@
   <%= @book.edition %>
 </p>
 
-<!-- TODO: we can include here that the user is willing to exchange for other books or needs these books and have a link for his/her book list  -->
-<p><strong>The user <% if @book.book_type %> is looking for the book <%else%> owns the book <%end%></strong></p>
+<%if @book.course%>
+  <p>
+    <strong>Class related to the book: </strong>
+    <%= @book.course%>
+  </p>
+<%end%>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
+<!-- TODO: we can include here that the user is willing to exchange for other books or needs these books and have a link for his/her book list  -->
+<p><strong>The user <% if @book.book_type == 1 %> is looking for the book <%else%> owns the book <%end%> <%if @book.sell == 1 %> and is selling it for $<%=@book.amount%><%else%> and wants to exchange it <%end%></strong></p>
+
+<% if current_user?(@book.account)%>
+  <%= link_to 'Edit', edit_book_path(@book) %> |
+<%end%>
 <%= link_to 'Back', books_path %>
