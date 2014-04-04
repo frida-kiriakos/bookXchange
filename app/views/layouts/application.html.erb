@@ -16,12 +16,13 @@
           <%= link_to "BookXchange", root_path, id: "logo" %>
           
           <nav>
-            <form accept-charset="UTF-8" action="/search" class="nav" role="search" style="margin-left: 100px;" method="POST">
-              <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="Z93CGHIrOGNhv4kW4LQuRMl7nGD38zdSKATMTjiIDSQ="></div>
+            <!-- <form accept-charset="UTF-8" action="/search" class="nav" role="search" style="margin-left: 100px;" method="POST"> -->
+            <%= form_tag("/search", method: "post", class: "nav", style: "margin-left: 150px;" ) do %>
               <div class="form-group">
                   <input type="text" class="form-control" placeholder="Search for Books" name="book">
-              </div>             
-            </form>
+              </div>
+            <%end%>           
+            <!-- </form> -->
 
             <ul class="nav pull-right">
               <li><%= link_to "Home",    root_path %></li>

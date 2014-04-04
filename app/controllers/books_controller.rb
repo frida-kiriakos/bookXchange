@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-	before_action :signed_in_user, only: [:new, :create]
+	before_action :signed_in_user, only: [:new, :create, :get_book, :buy]
 
 	def index
 		@books = Book.paginate(page: params[:page]) 		
@@ -17,6 +17,9 @@ class BooksController < ApplicationController
   	@book = current_user.books.build(book_params)
 
   	if @book.save
+      if @book.sell == 0
+        current_user.update_column(:credit, current_user.credit + 1)
+      end
       flash[:success] = "Book added successfully"
       redirect_to @book
     else
@@ -42,16 +45,33 @@ class BooksController < ApplicationController
   def destroy
   	@book = Book.find(params[:id]) 
   	if @book.destroy
+      current_user.update_column(:credit, current_user.credit - 1)
   	  flash[:success] = "Book deleted successfully"
   	  redirect_to books_url
   	end
   end
 
   def search
-    @books = Book.search do 
+    @books = Book.search do       
+      with :book_type, Book::TYPES[:added]
       fulltext params[:book]
       paginate :page => params[:page]
     end.results
+  end
+
+  def buy    
+  end
+
+  def get_book
+    @book = Book.find(params[:id])
+    if current_user.credit > 0
+      @book.update_attribute(:book_type, Book::TYPES[:exchanged] )
+      current_user.update_column(:credit, current_user.credit - 1)
+      flash.now[:success] = "The book will be sent to you at your mailing address"
+    else
+      flash.now[:warning] = "You do not have enough credit to exchange the book, please add books for exchange to earn credit"
+    end
+    render 'show'
   end
 
 private

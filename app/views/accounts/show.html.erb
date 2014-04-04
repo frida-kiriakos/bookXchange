@@ -22,19 +22,12 @@
   </p>
 
 
-  <% if @owned.any? %>
-    <p> <strong> Owned Books (<%= @owned.count %>) </strong></p>
+  <% if @books.any? %>
+    <p> <strong> Books List (<%= @books.count %>) </strong></p>
     <ol class="books">
-      <%= render @owned %>
+      <%= render @books %>
     </ol>
-  <% end %>
-
-  <% if @needed.any? %>
-    <p> <strong> Needed Books (<%= @needed.count %>) </strong></p>
-    <ol class="books">
-      <%= render @needed %>
-    </ol>
-  <% end %>
+  <% end %> 
 </div>
 
 <div class="span8">

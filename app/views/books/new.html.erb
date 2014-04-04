@@ -17,16 +17,9 @@
 	<%= f.text_field :edition %>
 
 	<%= f.label :course, 'Course related to the book, if any' %>
-  <%= f.text_field :course %>
+  <%= f.text_field :course %>  
 
-  <p>
-	  <%= f.label :book_type, 'Do you own the book or do you need it?' %>
-	  <%= radio_button("book", "book_type", "0")  %> I own the book</br>
-	  <%= radio_button("book", "book_type", "1")  %> I am looking for the book
-  </p>
-    <br>
-
-  <p id="sell_book_check" style="display: none;">
+  <p id="sell_book_check" >
 	  <%= f.label :sell, 'Do you want to exchange the book or sell it?' %>
 	  <%= radio_button("book", "sell", "0")  %> exchange </br>
 	  <%= radio_button("book", "sell", "1")  %> sell
@@ -49,15 +42,15 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-	$('#book_book_type_0, #book_book_type_1').change(function() {
-		type = this.getAttribute('value');
-		if (type == 0) {
-			document.getElementById('sell_book_check').style.display = 'block';
-		}
-		else {
-			document.getElementById('sell_book_check').style.display = 'none';
-		}
-	});
+	// $('#book_book_type_0, #book_book_type_1').change(function() {
+	// 	type = this.getAttribute('value');
+	// 	if (type == 0) {
+	// 		document.getElementById('sell_book_check').style.display = 'block';
+	// 	}
+	// 	else {
+	// 		document.getElementById('sell_book_check').style.display = 'none';
+	// 	}
+	// });
 
 	$('#book_sell_0, #book_sell_1').change(function() {
 		sell = this.getAttribute('value');
