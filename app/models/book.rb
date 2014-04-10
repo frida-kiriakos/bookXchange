@@ -1,5 +1,6 @@
 class Book < ActiveRecord::Base
 	belongs_to :account
+	has_one :transaction
 	validates :title, presence: true
 	validates :author, presence: true
 

@@ -59,17 +59,38 @@ class BooksController < ApplicationController
     end.results
   end
 
-  def buy    
+  def buy
+    @book = Book.find(params[:id])
+    if request.get?
+      if @book.book_type == Book::TYPES[:sold]
+        flash.now[:warning] = "The book is not available anymore"
+        render 'show'
+      end
+    elsif request.post?
+      # logger.info "======= #{params[:transaction][:from]}"
+      transaction = current_user.transactions.build(from: params[:transaction][:from], to: @book.paypal_account, amount: @book.amount, book_id: @book.id)
+      if transaction.save
+        @book.update_attribute(:book_type, Book::TYPES[:sold] )
+        flash[:success] = "Transaction performed successfully "
+        redirect_to @book
+      else
+        flash[:error] = "an error occurred"
+      end
+    end
   end
 
   def get_book
     @book = Book.find(params[:id])
-    if current_user.credit > 0
-      @book.update_attribute(:book_type, Book::TYPES[:exchanged] )
-      current_user.update_column(:credit, current_user.credit - 1)
-      flash.now[:success] = "The book will be sent to you at your mailing address"
+    if @book.book_type == Book::TYPES[:exchanged]
+      flash.now[:warning] = "The book is not available anymore"
     else
-      flash.now[:warning] = "You do not have enough credit to exchange the book, please add books for exchange to earn credit"
+      if current_user.credit > 0
+        @book.update_attribute(:book_type, Book::TYPES[:exchanged] )
+        current_user.update_column(:credit, current_user.credit - 1)
+        flash.now[:success] = "The book will be sent to you at your mailing address"
+      else
+        flash.now[:warning] = "You do not have enough credit to exchange the book, please add books for exchange to earn credit"
+      end
     end
     render 'show'
   end

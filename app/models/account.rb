@@ -16,6 +16,7 @@ class Account < ActiveRecord::Base
   validates :password_confirmation, presence: true
 
   has_many :books
+  has_many :transactions
 
   before_save { |account| account.email = email.downcase }
 

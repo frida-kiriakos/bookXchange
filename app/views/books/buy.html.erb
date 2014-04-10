@@ -1,0 +1,28 @@
+<h3 class="center">Buy Book</h3>
+<div class="row">
+  <div class="span6 offset3">
+  	<p>
+		  <strong>Title: </strong>
+		  <%= @book.title %>
+  	</p>
+
+  	<p>
+  		<strong>Sold by: </strong>
+  		<%= @book.account.name %>
+  	</p>
+
+  	<p>
+  		<strong>Price: </strong>
+  		$<%= @book.amount %>
+  	</p>
+
+  	<%= form_tag("/books/#{@book.id}/buy", method: "post") do %>
+      <div class="form-group">
+      	<label for="transaction_from">Enter Email Associated with Your Paypal Account</label>
+        <input type="text" class="form-control" id="transaction_from" name="transaction[from]">
+        <br>
+        <input class="btn btn-primary" name="commit" type="submit" value="Buy Book">
+      </div>
+    <%end%>	
+  </div>
+</div>
