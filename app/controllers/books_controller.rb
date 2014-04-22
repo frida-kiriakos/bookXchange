@@ -52,11 +52,15 @@ class BooksController < ApplicationController
   end
 
   def search
-    @books = Book.search do       
-      with :book_type, Book::TYPES[:added]
-      fulltext params[:book]
-      paginate :page => params[:page]
-    end.results
+    # search using eastic search
+    @books = Book.search(params[:book]).records.where(book_type: Book::TYPES[:added])
+
+    #  search using sunspot
+    # @books = Book.search do       
+    #   with :book_type, Book::TYPES[:added]
+    #   fulltext params[:book]
+    #   paginate :page => params[:page]
+    # end.results
   end
 
   def buy

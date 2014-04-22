@@ -1,4 +1,8 @@
 class Book < ActiveRecord::Base
+	# search using eastic search
+	include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  
 	belongs_to :account
 	has_one :transaction
 	validates :title, presence: true
@@ -6,8 +10,9 @@ class Book < ActiveRecord::Base
 
 	TYPES = { added: 0, exchanged: 1, sold: 2 }
 
-	searchable do
-    text :title, :author, :ISBN, :course
-    integer :book_type    
-  end
+# search using sunspot
+	# searchable do
+ #    text :title, :author, :ISBN, :course
+ #    integer :book_type    
+ #  end
 end
