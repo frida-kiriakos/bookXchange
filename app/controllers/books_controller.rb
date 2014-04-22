@@ -53,7 +53,7 @@ class BooksController < ApplicationController
 
   def search
     # search using eastic search
-    @books = Book.search(params[:book]).records.where(book_type: Book::TYPES[:added])
+    @books = Book.search(params[:book]) #.where(book_type: Book::TYPES[:added])
 
     #  search using sunspot
     # @books = Book.search do       
