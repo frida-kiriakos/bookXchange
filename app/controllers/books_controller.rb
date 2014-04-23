@@ -54,8 +54,11 @@ class BooksController < ApplicationController
   def search
     # search using eastic search
     # @books = Book.search(params[:book]).records.where(book_type: Book::TYPES[:added])
-    # Book.reindex
-    @books = Book.search params[:book]
+    # run Book.reindex on console when:
+    # when you install or upgrade searchkick
+    # change the searchkick method
+    
+    @books = Book.search params[:book], where: {book_type: Book::TYPES[:added]}, page: params[:page], per_page: 20
 
     #  search using sunspot
     # @books = Book.search do       
