@@ -36,7 +36,7 @@ gem 'progress_bar' # to show a progress bar while reindexing
 #  elastic search
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-gem 'tire'
+gem "searchkick"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'

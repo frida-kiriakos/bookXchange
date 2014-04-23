@@ -1,7 +1,10 @@
 class Book < ActiveRecord::Base
 	# search using eastic search
-	include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+	# include Elasticsearch::Model
+ #  include Elasticsearch::Model::Callbacks
+  
+  # search using searchkick
+  searchkick
   
 	belongs_to :account
 	has_one :transaction
