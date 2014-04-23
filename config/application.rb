@@ -22,6 +22,8 @@ module BookXchange
 
     I18n.enforce_available_locales = true
 
+    ENV['ELASTICSEARCH_URL'] = ENV['SEARCHBOX_URL']
+
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
   end
 end
