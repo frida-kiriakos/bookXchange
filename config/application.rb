@@ -25,6 +25,6 @@ module BookXchange
     ENV['ELASTICSEARCH_URL'] = ENV['SEARCHBOX_URL']
 
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-    config.active_record.observers = :book_observer
+    #config.active_record.observers = :book_observer
   end
 end

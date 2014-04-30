@@ -11,7 +11,7 @@ class Book < ActiveRecord::Base
 	validates :title, presence: true
 	validates :author, presence: true
 	validates :sell, presence: true
-	validates :amount, length: {maximum: 11}
+	validates :amount, length: {maximum: 11} #, numericality: {less_than_or_equal_to: 200}
 
 	TYPES = { added: 0, exchanged: 1, sold: 2 }
 	SELL_TYPES = {exchange: 0, sell: 1}
