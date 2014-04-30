@@ -10,8 +10,11 @@ class Book < ActiveRecord::Base
 	has_one :transaction
 	validates :title, presence: true
 	validates :author, presence: true
+	validates :sell, presence: true
+	validates :amount, length: {maximum: 11}
 
 	TYPES = { added: 0, exchanged: 1, sold: 2 }
+	SELL_TYPES = {exchange: 0, sell: 1}
 
 
 # search using sunspot

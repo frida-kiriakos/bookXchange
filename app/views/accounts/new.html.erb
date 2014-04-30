@@ -17,7 +17,7 @@
 	<%= f.password_field :password_confirmation %>
 
 	<%= f.label :education, "Education level" %>
-	<%= f.text_field :education %>
+	<%= f.select(:education, ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'])  %>
 
 	<%= f.label :address %>
     <%= f.text_field :address %>

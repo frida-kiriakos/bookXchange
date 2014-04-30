@@ -3,7 +3,7 @@ class Account < ActiveRecord::Base
 
   # a unique index will be created for the email to validate uniqueness on the database level
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[csu\.]*fullerton\.edu\z/i
-  validates :email, presence: true, format: {with: VALID_EMAIL_REGEX}, uniqueness: { case_sensitive: false }
+  validates :email, presence: true, format: {with: VALID_EMAIL_REGEX, message: ": Please enter a valid CSUF email address, @csu.fullerton.edu or @fullerton.edu"}, uniqueness: { case_sensitive: false }
 
   # validates :email, presence: true, uniqueness: { case_sensitive: false }
 
