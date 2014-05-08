@@ -2,7 +2,7 @@ class BooksController < ApplicationController
 	before_action :signed_in_user, only: [:new, :create, :get_book, :buy]
 
 	def index
-		@books = Book.paginate(page: params[:page]) 		
+		@books = Book.paginate(page: params[:page]).order('created_at DESC')	
 	end
 
 	def show
