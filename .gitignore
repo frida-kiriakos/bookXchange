@@ -22,3 +22,5 @@
 # Ignore solr files
 solr/*
 log/sunspot-solr-development.log.lck
+/bookxchange/nbproject/private/
+/nbproject/private/

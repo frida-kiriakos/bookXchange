@@ -1,13 +1,7 @@
 require 'test_helper'
 
 class AccountsControllerTest < ActionController::TestCase
-
-  ###### what to test:
-  # was the web request successful?
-  # was the user redirected to the right page?
-  # was the user successfully authenticated?
-  # was the correct object stored in the response template?
-  # was the appropriate message displayed to the user in the view?
+  
   setup do
     @account = accounts(:one)    
   end
@@ -23,6 +17,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+# AccountsControllerTest.3
   test "should create account" do
     assert_difference('Account.count') do
       post :create, account: { 
@@ -32,10 +27,10 @@ class AccountsControllerTest < ActionController::TestCase
         password: "test123", 
         password_confirmation: "test123" }
     end
-
     assert_redirected_to account_path(assigns(:account))
   end
 
+# AccountsControllerTest.4
   test "should show account" do
     get :show, id: @account
     assert_response :success
@@ -55,7 +50,6 @@ class AccountsControllerTest < ActionController::TestCase
     assert_difference('Account.count', -1) do
       delete :destroy, id: @account
     end
-
     assert_redirected_to accounts_path
   end
 end

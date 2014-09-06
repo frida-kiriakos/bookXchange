@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-  	account = Account.find_by(email: params[:session][:email])
+  	account = Account.find_by(:email => params[:session][:email])
     if account and account.authenticate(params[:session][:password])
       #fill user session
       sign_in account
