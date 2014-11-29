@@ -1,27 +1,36 @@
-<li>
-  <%= link_to book.title, book %>
-  <% if params[:controller] == "books" %> 
-    - Added by: <%= link_to book.account.name, book.account %>
+
+<tr>
+  <td><%= link_to book.title, book %></td>
+   <% if params[:controller] == "books" || params[:controller] == "admin" %> 
+    <td> <%= link_to book.account.name, book.account %></td>
   <%end%>
   <%if book.book_type == Book::TYPES[:sold]%>
-    - Sold
+    <td>Sold</td>
+    <td></td>
+    <td></td
+    
   <%elsif book.book_type == Book::TYPES[:exchanged] %>
-    - Exchanged
+    <td>Exchanged</td>
+    <td></td>
+    <td></td>
   <%else%>
     <%if book.sell == 1 %>
-      - For Sale
+      <td>For Sale</td>
     <%else%> 
-      - For exchange
+      <td>For exchange</td>
     <%end%>
 
-
+    <td>
     <% if current_user && current_user.admin? || current_user?(book.account) %>
-      | <%= link_to "Delete", book, method: :delete,
+      <%= link_to "Delete", book, method: :delete,
                                     data: { confirm: "Are you sure?" } %>
     <% end %>
-
+    </td>
+    <td>
     <% if current_user && current_user?(book.account) %>
-      | <%= link_to "Edit", edit_book_path(book) %>
+       <%= link_to "Edit", edit_book_path(book) %> 
     <% end %>
+    </td>
   <%end%>
-</li>
+
+</tr>

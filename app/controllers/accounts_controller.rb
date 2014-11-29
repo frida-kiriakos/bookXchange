@@ -41,8 +41,9 @@ class AccountsController < ApplicationController
   
   def destroy
     @account.destroy
+    # redirect_to :back redirects to the previous page, equivalent to redirect_to request.env["HTTP_REFERER"]f
     respond_to do |format|
-      format.html { redirect_to accounts_url }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

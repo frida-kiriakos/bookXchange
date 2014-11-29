@@ -26,8 +26,11 @@ module SessionsHelper
   end
 
   def redirect_back_or(default)
+    # might need to save the page in return_to before calling this function
+    # update: there is already a store_location method that does that
     redirect_to(session[:return_to] || default)
     session.delete(:return_to)
+    session.delete(:admin_access)
   end
 
   def store_location
@@ -38,6 +41,20 @@ module SessionsHelper
     unless signed_in?
       store_location
       redirect_to signin_url, notice: "Please sign in."
+    end
+  end
+
+  def signed_in_admin_user
+    unless signed_in?
+      store_location
+      session[:admin_access] = true
+      redirect_to signin_url, notice: "Please sign in with your admin account."
+    end
+  end
+
+  def is_admin?
+    unless current_user.admin?
+      redirect_to root_url, notice: "You must be admin to access this page"
     end
   end
 end

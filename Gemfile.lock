@@ -32,6 +32,9 @@ GEM
       sass (~> 3.2)
     bootstrap-will_paginate (0.0.9)
       will_paginate
+    bson (1.11.1)
+    bson_ext (1.11.1)
+      bson (~> 1.11.1)
     builder (3.1.4)
     capybara (2.1.0)
       mime-types (>= 1.16)
@@ -48,6 +51,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    daemon_controller (1.2.0)
     elasticsearch (1.0.1)
       elasticsearch-api (= 1.0.1)
       elasticsearch-transport (= 1.0.1)
@@ -67,6 +71,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     fattr (2.2.1)
     ffi (1.9.3)
+    geoip (1.4.0)
     hashie (2.1.1)
     highline (1.6.19)
     hike (1.2.3)
@@ -84,6 +89,8 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.5.2)
     minitest (4.7.5)
+    mongo (1.11.1)
+      bson (= 1.11.1)
     multi_json (1.8.4)
     multipart-post (2.0.0)
     mysql2 (0.3.15)
@@ -91,6 +98,10 @@ GEM
       mini_portile (~> 0.5.0)
     options (2.3.0)
       fattr
+    passenger (4.0.53)
+      daemon_controller (>= 1.2.0)
+      rack
+      rake (>= 0.8.1)
     pg (0.15.1)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
@@ -184,13 +195,18 @@ DEPENDENCIES
   bcrypt-ruby (= 3.1.2)
   bootstrap-sass (= 2.3.2.0)
   bootstrap-will_paginate
+  bson
+  bson_ext
   capybara (= 2.1.0)
   coffee-rails (~> 4.0.0)
   elasticsearch-model
   elasticsearch-rails
+  geoip
   jbuilder (~> 1.2)
   jquery-rails
+  mongo
   mysql2
+  passenger
   pg
   progress_bar
   rails (= 4.0.2)

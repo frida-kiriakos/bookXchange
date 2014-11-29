@@ -1,30 +1,22 @@
 <h1>Listing accounts</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
-      <th>Email</th>
-      <th>Education</th>
+
       <th>Admin</th>
-      <th>Address</th>
-      <th></th>
-      <th></th>
-      <th></th>
+
     </tr>
   </thead>
 
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
-        <td><%= account.name %></td>
-        <td><%= account.email %></td>
-        <td><%= account.education %></td>
+        <td><%= link_to account.name, account %></td>
+
         <td><%= account.admin %></td>
-        <td><%= account.address %></td>
-        <td><%= link_to 'Show', account %></td>
-        <td><%= link_to 'Edit', edit_account_path(account) %></td>
-        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+       
       </tr>
     <% end %>
   </tbody>
@@ -32,4 +24,3 @@
 
 <br>
 
-<%= link_to 'New Account', new_account_path %>

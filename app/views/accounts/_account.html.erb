@@ -1,0 +1,35 @@
+<tr>
+  <td><%= link_to account.name, account %></td>
+  <td><%= account.email %></td>
+  <td><%= account.education %></td>
+  <td><%= account.admin %></td>
+  <!-- <td><%#= account.address %></td> -->
+  <td><%= account.credit %></td>
+  <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+  <%- if params[:controller] == "admin" -%>
+  	<td>
+  	<%- if !account.admin?  -%>
+  		<%= link_to 'Make Admin', make_admin_path(account), data: { confirm: 'This action will give the user admin privileges, continue?' } %>
+  	<%- end -%>
+  	</td>
+
+  	<td>
+  	<%- if account.admin?  -%>
+  		<%= link_to 'Revoke admin', revoke_admin_path(account), data: { confirm: 'This action will revoke the user admin privileges, continue?' } %>
+  	<%- end -%>
+  	</td>
+
+  	<td>
+  	<%- if !account.admin?  -%>
+  		<%= link_to 'Give credit', credit_path(account), data: { confirm: 'This action will increment the user credit, continue?' } %>
+  	<%- end -%>
+  	</td>
+
+    <td>
+    <%- if account.num_logins >= 10  -%>
+      <%= link_to 'Create Profile', create_profile_path(account), data: { confirm: 'This action will generate a profile for the user, continue?' } %>
+    <%- end -%>
+    </td>
+  <%- end -%>
+</tr>

@@ -1,11 +1,19 @@
 <h1>Books List</h1>
 
-<div class="span8">
-    <% if @books.any? %>
-      <h3>Books (<%= @books.count %>)</h3>
-      <ol class="books">
-        <%= render @books %>
-      </ol>
+<table class="table table-striped">
+	<thead>
+    <tr>
+      <th>Title</th>
+      <th>Added by</th>
+      <th>Type</th>
+      <th>Actions</th>
+      <th></th>      
+    </tr>
+  </thead>
+  <tbody>
+  	<% if @books.any? %>      
+      <%= render @books %>
       <%= will_paginate @books %>
     <% end %>
-</div>
+  </tbody>
+</table>

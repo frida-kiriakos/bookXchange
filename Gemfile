@@ -71,3 +71,9 @@ end
 # needed for deploying on heroku
 gem 'rails_12factor', group: :production
 gem 'pg'
+gem 'passenger'
+gem 'geoip'
+
+gem 'mongo'
+gem 'bson'
+gem 'bson_ext'

@@ -29,11 +29,11 @@ test:
   password: t00r
   socket: /var/lib/mysql/mysql.sock
 
-# production:
-#   adapter: mysql2
-#   encoding: utf8
-#   database: bookXchange
-#   pool: 5
-#   username: root
-#   password: t00r
-#   socket: /var/lib/mysql/mysql.sock
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: bookXchange_development
+  pool: 5
+  username: root
+  password: t00r
+  socket: /var/lib/mysql/mysql.sock

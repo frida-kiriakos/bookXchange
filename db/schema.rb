@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140410221252) do
+ActiveRecord::Schema.define(version: 20141127012900) do
 
   create_table "accounts", force: true do |t|
     t.string   "name"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140410221252) do
     t.datetime "updated_at"
     t.string   "remember_token"
     t.integer  "credit",          default: 0
+    t.integer  "num_logins",      default: 0
   end
 
   add_index "accounts", ["remember_token"], name: "index_accounts_on_remember_token", using: :btree

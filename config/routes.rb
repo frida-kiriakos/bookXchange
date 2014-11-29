@@ -1,5 +1,6 @@
 BookXchange::Application.routes.draw do  
   
+  # get "admin/index"
   root 'home#index'
   get 'about', to: 'home#about'
   resources :accounts
@@ -17,6 +18,11 @@ BookXchange::Application.routes.draw do
   match 'books/:id/buy' => 'books#buy', via: :post
   get 'books/:id/get' => 'books#get_book', as: :get_book
 
+  match '/admin', to: 'admin#index', via: :get
+  get '/make_admin/:id' => 'admin#make_admin', as: :make_admin
+  get '/revoke_admin/:id' => 'admin#revoke_admin', as: :revoke_admin
+  get 'admin/credit/:id' => 'admin#credit', as: :credit
+  get 'admin/create_profile/:id' => 'admin#create_profile', as: :create_profile
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -24,9 +24,19 @@
 
   <% if @books.any? %>
     <p> <strong> Books List (<%= @books.count %>) </strong></p>
-    <ol class="books">
-      <%= render @books %>
-    </ol>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Actions</th>
+          <th></th>      
+        </tr>
+      </thead>
+      <tbody>            
+        <%= render @books %>
+      </tbody>
+    </table>
   <% end %> 
 </div>
 
