@@ -3,7 +3,9 @@ class AdminController < ApplicationController
 
 	# to set the namespace so we don't have to use Mongo:: before every command
 	include Mongo  
-	before_action :signed_in_admin_user, :is_admin?
+	
+  before_action :signed_in_admin_user, :is_admin?
+  
   def index
   	# list of accounts, books, with all options enabled
   	@accounts = Account.all
@@ -40,58 +42,86 @@ class AdminController < ApplicationController
   	redirect_to admin_path  	
   end
 
-  def login
-  	#login based on user's profile  	
-  end
+  
+# this function will use the data collected to create a profile for the user's usual behavior
+# profile creation will be enabled after the user has logged in the website for 10 times
+# this is needed to train the system about the user behavior
+# it takes params[:id] as parameter
 
   def create_profile
-    logger.info "======== generating a profile for the user"
-    # also takes params[:id] as parameter
-
-  	# this function will use the data collected to create a profile for the user's usual behavior
-  	# profile creation will be enabled after the user has logged in the website for 10 times
-  	# this is needed to train the system about the user behavior
+    logger.info "======== generating a profile for the user"  	
   	
     account = Account.find(params[:id])
     user_token = account.remember_token
 
-    logger.info "===== user_token #{user_token}"
+    profile = account.profile ? account.profile : account.build_profile()
+
+    # we are using a native driver for mongodb as opposed to a mapper
     coll = MongoClient.new("localhost", 27017).db("bookxchange").collection("log")
-  	# documents = coll.find("nginx.request_uri" => "/admin").to_a  # this returns an array of BSON objects
-  	# can iterate through them using each
-  	# data can be accessed using format
-  	# d[0]['nginx']['user_ip']
+  	
 
-  	# to get specific fields only:
-  	# d = c.find({"nginx.request_uri" => "/admin"}, :fields => ["nginx.user_ip", "nginx.timestamp"]).to_a
-
-    # coll.mapreduce(map,reduce,:out=>'analytics') # the output is saved in analytics collection
-    # to access remember_token: document.nginx.http_cookie.remember_token
-
-    # find the page the user accesses more frequently than others
+    # find the top three pages the user accesses more frequently than others
     map_pages = map("request_uri")
-    results = coll.map_reduce(map_pages, reduce, :out => "log_results", :query => {'nginx.http_cookie.remember_token' => user_token})
+    results = coll.map_reduce(map_pages, reduce, :out => "log_results", :query => {'nginx.http_cookie.remember_token' => user_token}, :limit => 100)
     pages = results.find().sort(:value => :desc).limit(3).to_a
-    most_accessed_pages_array = []
+    most_accessed_pages = []
 
-    pages.each {|p| most_accessed_pages_array.append(p['_id'])}
-    most_accessed_pages = most_accessed_pages_array.join(",")
+    pages.each {|p| most_accessed_pages.append(p['_id'])}
+    profile.pages = most_accessed_pages.join(",")
 
-    # find usual ip address
+    # find usual ip address, we will take the most common two ip addresses 
+    map_ip = map("user_ip")
+    results = coll.map_reduce(map_ip, reduce, :out => "log_results", :query => {'nginx.http_cookie.remember_token' => user_token})
+    ip_addresses = results.find().sort(:value => :desc).limit(2).to_a
+    logger.info "===== ip_addresses #{ip_addresses}"
 
-    # find usual access time
+    common_addresses = []
+    ip_addresses.each {|a| common_addresses.append(a['_id'])}
+    profile.ip_address = common_addresses.join(',')
 
-    # browser
+    logger.info "====== profile.ip_address #{profile.ip_address}"
 
-    # operating system
 
+    # find usual access time, we rely on the ip_address for this since remember_token does not exist when the user is logged out
+    map_access_time = map("timestamp.hour")
+    results = coll.map_reduce(map_access_time, reduce, :out => "log_results", :query => {'nginx.user_ip' => ip_addresses[0]['_id'], 'nginx.request_uri' => '/sessions', 'nginx.http_referer' => /(.*)signin/i})
+
+    signin_time = results.find().sort(:value => :desc).limit(1).to_a
+    logger.info "========= signin_time #{signin_time}"
+    profile.access_time = signin_time[0]['_id'].to_i
+
+
+    # browser and operating system
+    map_user_agent = map("user_agent")
+    results = coll.map_reduce(map_user_agent, reduce, :out => "log_results", :query => {'nginx.http_cookie.remember_token' => user_token}, :limit => 100)
+    user_agent_array = results.find().sort(:value => :desc).limit(1).to_a
+    user_agent = user_agent_array[0]['_id']
+
+    if user_agent.include?("Chrome")    
+      os = user_agent.split("(")[1].split(")")[0]
+      browser = user_agent.split(" ")[-2]
+      
+    elsif user_agent.include?("Firefox")
+      os = user_agent.split("(")[1].split(")")[0]
+      browser = user_agent.split(" ")[-1]
+
+    elsif user_agent.include?("MSIE")
+      arr = user_agent.split(";")
+      os = a[2].strip
+      browser = a[1].strip
+    end
+
+    profile.browser = browser
+    profile.operating_system = os
     
 
-    logger.info "=== most_accessed_page: #{most_accessed_pages}"
-
-    flash[:success] = "profile created"
+    # Finally, save the profile for the user in the database
+    if profile.save
+      flash[:success] = "profile created successfully"
+    else
+      flash[:error] = "an error occurred, please check logs"      
+    end
     redirect_to admin_path
-
   end
 
   private
@@ -105,27 +135,12 @@ class AdminController < ApplicationController
 
   def reduce
     reduce = "function(key, values) {" +
-      "var total_count = 0;" +
-      "for (var i = 0; i < values.length; i++) {" +   
-        "total_count += values[i].count;" +
-      "}" +
-      "return total_count;" +
+      "var reducedVal = {count: 0};" +
+      "values.forEach( function(value) {" +
+        "reducedVal.count += value.count;" +
+      "});" +
+      "return reducedVal;" +
     "};"    
   end
-
-  def find_max(records)
-    max_record = records[0]['_id']
-    max = records[0]['value']
-
-    records.each do |p|
-      if p['value'].class == Float and p['value'] >= max
-        max = p['value']
-        max_record = p['_id']
-      end
-    end
-
-    return max_record
-  end
-
   
 end

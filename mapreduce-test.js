@@ -12,3 +12,11 @@ function(key, values) {
 	}
 	return reducedVal;
 };
+
+function(key, values) {
+	var reducedVal = {count: 0};
+	values.forEach( function(value) {	
+		reducedVal.count += value.count;
+	});
+	return reducedVal;
+};

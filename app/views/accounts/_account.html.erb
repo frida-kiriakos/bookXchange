@@ -27,7 +27,7 @@
   	</td>
 
     <td>
-    <%- if account.num_logins >= 10  -%>
+    <%-if account.num_logins >= 10 and !account.profile  -%>
       <%= link_to 'Create Profile', create_profile_path(account), data: { confirm: 'This action will generate a profile for the user, continue?' } %>
     <%- end -%>
     </td>

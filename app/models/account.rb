@@ -18,6 +18,8 @@ class Account < ActiveRecord::Base
   has_many :books  
   has_many :transactions
 
+  has_one :profile
+
   before_save { |account| account.email = email.downcase }
   before_save :create_remember_token
 

@@ -3,14 +3,20 @@ class SessionsController < ApplicationController
   end
 
   def create
-  	account = Account.find_by(:email => params[:session][:email])
-  
-    #  so we check here if the return_to url is admin then check the profile
-    if session[:admin_access] == true and session[:return_to].include?("/admin")
-      logger.info "======== checking admin profile"
-    end
+  	account = Account.find_by(:email => params[:session][:email])    
 
     if account and account.authenticate(params[:session][:password])
+      #  check the account profile if it corresponds to an admin
+      # if session[:admin_access] == true and session[:return_to].include?("/admin")
+      #   logger.info "======== checking admin profile 2"
+      #   valid,flag_attempt = check_profile account
+      # end
+
+      # if !valid.nil? and valid == false
+      #   auth_logger.info "invalid login attempt"
+      #   flash.now[:error] = "You were not identified as an admin"
+      #   render 'new'
+      # end
       #fill user session
       sign_in account
       account.update_column(:num_logins, account.num_logins + 1)
