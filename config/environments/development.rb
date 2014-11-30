@@ -26,4 +26,12 @@ BookXchange::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  # send emails with sendmail
+  config.action_mailer.delivery_method = :sendmail
+  # config.action_mailer.smtp_settings = {
+  #   :address => "localhost",
+  #   :port => 25,
+  #   :domain => "bookxchange.com",
+  # }
 end

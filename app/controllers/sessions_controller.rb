@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
 
         if !valid.nil? and valid == false
           auth_logger.info "invalid login attempt"
+          NotificationsMailer.invalid_access_email(account).deliver
           flash.now[:error] = "You were not identified as an admin, this incident will be reported"
           session.delete(:return_to)
           render 'new' and return

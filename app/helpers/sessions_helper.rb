@@ -81,8 +81,8 @@ module SessionsHelper
 
     elsif user_agent.include?("MSIE")
       arr = user_agent.split(";")
-      os = a[2].strip
-      browser = a[1].strip
+      os = arr[2].strip
+      browser = arr[1].strip
     end
 
     return os, browser
