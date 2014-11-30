@@ -30,7 +30,7 @@ module SessionsHelper
     # update: there is already a store_location method that does that
     redirect_to(session[:return_to] || default)
     session.delete(:return_to)
-    session.delete(:admin_access)
+    # session.delete(:admin_access)
   end
 
   def store_location
@@ -57,7 +57,7 @@ module SessionsHelper
       # check profile
       valid, flag_attempt = check_profile(current_user)
 
-      if not valid
+      if !valid.nil? and not valid
         sign_out
         redirect_to root_url, notice: "You were not identified as admin, this incident will be reported"
       end
@@ -68,6 +68,24 @@ module SessionsHelper
 
   def auth_logger
      @auth_logger ||= Logger.new("#{Rails.root}/log/authentication.log")
+  end
+
+  def parse_user_agent(user_agent)
+    if user_agent.include?("Chrome")    
+      os = user_agent.split("(")[1].split(")")[0]
+      browser = user_agent.split(" ")[-2]
+      
+    elsif user_agent.include?("Firefox")
+      os = user_agent.split("(")[1].split(")")[0]
+      browser = user_agent.split(" ")[-1]
+
+    elsif user_agent.include?("MSIE")
+      arr = user_agent.split(";")
+      os = a[2].strip
+      browser = a[1].strip
+    end
+
+    return os, browser
   end
 
   def check_profile(account)
@@ -87,9 +105,9 @@ module SessionsHelper
       addresses.each do |addr|
         net = IPAddr.new(addr).mask(24)
         if request.remote_ip == addr 
-          score += 20
+          score += 25
         elsif net.include?(request.remote_ip)
-          score += 15
+          score += 20
         # else
         #   result += ", user is not in the usual location"
         end
@@ -105,6 +123,7 @@ module SessionsHelper
         score += 25
       elsif t == profile.access_time - 1 or  t == profile.access_time + 1
         score += 15
+        result += ", access time is within an hour of the usual time"
       else
         result += ", access time is not around the usual time"
       end
@@ -112,14 +131,25 @@ module SessionsHelper
       # check browser used
       user_agent = request.headers['User-Agent']
 
-      if user_agent.include?(profile.browser)
+      os, browser = parse_user_agent(user_agent)
+
+      r_os = Regexp.new os
+      r_browser = Regexp.new browser
+
+      if browser == profile.browser
         score += 20
+      elsif r_browser.match(profile.browser)
+        score += 10
+        result += ", user is using a similar browser"
       else
         result += ", user is not using the usual browser"
       end
 
-      if user_agent.include?(profile.operating_system)
-        score += 25
+      if os == profile.operating_system
+        score += 20
+      elsif r_os.match(profile.operating_system)
+        score += 10
+        result += ", user is using a similar OS"
       else
         result += ", user is not using the usual OS"
       end
@@ -141,11 +171,7 @@ module SessionsHelper
       auth_logger.info "admin access attempt with: Account: #{account.id}, final score: #{score}, result: #{result}, decision: #{flag_attempt}"
 
       return valid, flag_attempt
-
-    else
-      store_location
-      # must redirect to a page with security question
-      redirect_to root_url, notice: "Please enter answer to your security question"
+   
     end    
   end
 end

@@ -8,7 +8,7 @@ db = client.db("bookxchange")
 coll = db.collection("log")
 
 map = "function () {" +
-	"var key =  this.nginx.user_ip;" +
+	"var key =  this.nginx.user_agent;" +
 	"emit(key,{count: 1});" +
 "};"
 
@@ -39,15 +39,15 @@ reduce = "function(key, values) {" +
 "};" 
 
 # find distinct remember_token
-user_tokens = coll.distinct( "nginx.http_cookie.remember_token", {'nginx.http_cookie.remember_token_key' => 'remember_token'})
+user_tokens = coll.distinct( "nginx.http_cookie", {"nginx.http_cookie" => {"$ne" => "-"}})
 # user_tokens = ["p7oHUNg-P8gxUiC2M94p5w"]
 
 # then find the ip addresses associated with each token
 user_tokens.each do  |token|
 	puts token
-	results = coll.map_reduce(map, reduce, :out => "log_results", :query => {'nginx.http_cookie.remember_token' => token })
+	results = coll.map_reduce(map, reduce, :out => "log_results", :query => {'nginx.http_cookie' => token })
 
-	ip_addresses = results.find().sort(:value => :desc).limit(2).to_a
+	ip_addresses = results.find().sort(:value => :desc).to_a
 	puts ip_addresses
 
 	# user_agent = results.find().to_a
@@ -122,24 +122,26 @@ def find_max(records)
   return max_record
 end
 
-agents = coll.distinct("nginx.user_agent")
-os = ""
-browser = ""
+def check_user_agent
+	agents = coll.distinct("nginx.user_agent")
+	os = ""
+	browser = ""
 
-agents.each do |user_agent|
-	if user_agent.include?("Chrome")	  
-	  os = user_agent.split("(")[1].split(")")[0]
-	  browser = user_agent.split(" ")[-2]
-	  
-	elsif user_agent.include?("Firefox")
-		os = user_agent.split("(")[1].split(")")[0]
-	  browser = user_agent.split(" ")[-1]
+	agents.each do |user_agent|
+		if user_agent.include?("Chrome")	  
+		  os = user_agent.split("(")[1].split(")")[0]
+		  browser = user_agent.split(" ")[-2]
+		  
+		elsif user_agent.include?("Firefox")
+			os = user_agent.split("(")[1].split(")")[0]
+		  browser = user_agent.split(" ")[-1]
 
-	elsif user_agent.include?("MSIE")
-		arr = user_agent.split(";")
-		os = a[2].strip
-	  browser = a[1].strip
+		elsif user_agent.include?("MSIE")
+			arr = user_agent.split(";")
+			os = a[2].strip
+		  browser = a[1].strip
+		end
+
+		puts "os: #{os}, browser: #{browser}"
 	end
-
-	puts "os: #{os}, browser: #{browser}"
 end

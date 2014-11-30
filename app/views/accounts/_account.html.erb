@@ -15,7 +15,7 @@
   	</td>
 
   	<td>
-  	<%- if account.admin?  -%>
+  	<%- if account.admin? and !current_user?(account) -%>
   		<%= link_to 'Revoke admin', revoke_admin_path(account), data: { confirm: 'This action will revoke the user admin privileges, continue?' } %>
   	<%- end -%>
   	</td>
