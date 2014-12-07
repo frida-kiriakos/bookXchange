@@ -8,7 +8,7 @@ db = client.db("bookxchange")
 coll = db.collection("log")
 
 map = "function () {" +
-	"var key =  this.nginx.user_agent;" +
+	"var key =  this.nginx.user_ip;" +
 	"emit(key,{count: 1});" +
 "};"
 

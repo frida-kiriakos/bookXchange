@@ -103,10 +103,11 @@ module SessionsHelper
       addresses = profile.ip_address.split(',')
 
       addresses.each do |addr|
-        net = IPAddr.new(addr).mask(24)
+        net = IPAddr.new(addr).mask(16)
+        
         if request.remote_ip == addr 
           score += 25
-        elsif net.include?(request.remote_ip)
+        elsif net.include?(request.remote_ip)          
           score += 20
         # else
         #   result += ", user is not in the usual location"
